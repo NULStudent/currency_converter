@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'data/exchange_rates.dart'; // Rates, names and symbols
 import 'logic/conversion_calculator.dart'; // The conversion maths
+import 'package:flutter/services.dart'; // Lets us control what can be typed
 
 void main() {
   runApp(const MyApp()); // Starts the app
@@ -63,6 +64,33 @@ class _CurrencyConverterState extends State<CurrencyConverter> { // Holds the va
                 Text(
                   ConversionCalculator.formatRate(_fromCurrency, _toCurrency), // Shows "1 USD = 0.7900 GBP"
                   style: style.copyWith(fontWeight: FontWeight.normal),
+                ),
+              ],
+            ),
+          ),
+          Container( // Input box
+            margin: const EdgeInsets.symmetric(horizontal: 16), // Space on the sides
+            padding: const EdgeInsets.all(16), // Space inside the box
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16), // Rounded corners
+              border: Border.all(color: theme.colorScheme.primary, width: 2), // Outline in the theme colour
+            ),
+            child: Column(
+              children: [
+                TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(), // Box around the field
+                    labelText: 'Enter amount', // Label inside the field
+                  ),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true), // Number keyboard with a dot
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')), // Digits, one dot, two decimals
+                  ],
+                  onChanged: (String value) { // Runs on every key press
+                    setState(() {
+                      _amount = double.tryParse(value) ?? 0; // Empty or wrong input becomes 0
+                    });
+                  },
                 ),
               ],
             ),
