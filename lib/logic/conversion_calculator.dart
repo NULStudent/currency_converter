@@ -9,9 +9,13 @@ class ConversionCalculator { // All the maths lives here, no widgets
     return amount * rate(from, to);
   }
 
-  static String formatAmount(double value, String code) { // Turns the result into text
+    static String formatAmount(double value, String code) { // Turns the result into text
     final decimals = code == 'JPY' ? 0 : 2; // Yen has no pennies
-    return value.toStringAsFixed(decimals);
+    final parts = value.toStringAsFixed(decimals).split('.'); // Splits whole and decimal parts
+    final whole = parts[0].replaceAllMapped(
+      RegExp(r'\B(?=(\d{3})+(?!\d))'), (match) => ',', // Adds a comma every three digits
+    );
+    return parts.length > 1 ? '$whole.${parts[1]}' : whole;
   }
 
   static String formatRate(String from, String to) { // Text like "1 USD = 0.7900 GBP"

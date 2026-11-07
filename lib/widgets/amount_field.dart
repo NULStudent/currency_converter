@@ -10,12 +10,12 @@ class AmountField extends StatelessWidget { // Text field for the amount
   Widget build(BuildContext context) {
     return TextField(
       decoration: const InputDecoration(
-        border: OutlineInputBorder(), // Box around the field
         labelText: 'Enter amount', // Label inside the field
+        prefixIcon: Icon(Icons.payments_outlined), // Money icon at the start
       ),
       keyboardType: const TextInputType.numberWithOptions(decimal: true), // Number keyboard with a dot
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')), // Digits, one dot, two decimals
+        FilteringTextInputFormatter.allow(RegExp(r'^\d{0,12}\.?\d{0,2}')), // Up to 12 digits, two decimals
       ],
       onChanged: onChanged, // Runs on every key press
     );

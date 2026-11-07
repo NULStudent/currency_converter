@@ -32,4 +32,8 @@ void main() {
   test('Yen is shown with no decimals', () { // Edge case
     expect(ConversionCalculator.formatAmount(150, 'JPY'), '150');
   });
+
+    test('Big numbers get commas', () { // Checks the thousand separators
+    expect(ConversionCalculator.formatAmount(1550, 'NGN'), '1,550.00');
+  });
 }

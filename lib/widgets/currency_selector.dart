@@ -11,10 +11,7 @@ class CurrencySelector extends StatelessWidget { // Dropdown to pick a currency
   @override
   Widget build(BuildContext context) {
     return InputDecorator(
-      decoration: InputDecoration(
-        labelText: label, // Label on the border
-        border: const OutlineInputBorder(),
-      ),
+    decoration: InputDecoration(labelText: label), // Label on the border, style comes from the theme,
       child: DropdownButtonHideUnderline( // Removes the default line
         child: DropdownButton<String>(
           value: value,
