@@ -68,7 +68,7 @@ result = amount × rate(from, to)
 
 The maths uses full precision. Only the text on screen is rounded: results to 2 decimal places (0 for Yen), and the rate to 4 decimal places.
 
-This is why 100 GBP to USD shows **126.58** and not 127.00. The exact rate is 1 ÷ 0.79 = 1.2658. The brief's worked example says "~1.27", where the "~" shows it is approximate. Rounding the rate to 2 decimals first would make small rates very wrong: JPY to USD (0.0067) would become 0.01, a 50% error.
+This is why 100 GBP to USD shows **126.58** and not 127.00. The exact rate is 1 ÷ 0.79 = 1.2658. The brief's worked example says `~1.27`, where the `~` shows it is approximate. Rounding the rate to 2 decimals first would make small rates very wrong: JPY to USD (0.0067) would become 0.01, a 50% error.
 
 ## Input rules and edge cases
 
