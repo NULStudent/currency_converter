@@ -33,6 +33,14 @@ class _CurrencyConverterState extends State<CurrencyConverter> { // Holds the va
   String _fromCurrency = 'USD'; // Currency we convert from
   String _toCurrency = 'GBP'; // Currency we convert to
 
+  void _swapCurrencies() { // Swaps From and To
+    setState(() {
+      final temp = _fromCurrency; // Keeps the old From for a moment
+      _fromCurrency = _toCurrency;
+      _toCurrency = temp;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context); // Saves the theme so we can reuse it
@@ -91,6 +99,69 @@ class _CurrencyConverterState extends State<CurrencyConverter> { // Holds the va
                       _amount = double.tryParse(value) ?? 0; // Empty or wrong input becomes 0
                     });
                   },
+                ),
+                const SizedBox(height: 16), // Gap under the amount field
+                Row( // From, swap and To side by side
+                  children: [
+                    Expanded( // From dropdown takes half the space
+                      child: InputDecorator(
+                        decoration: const InputDecoration(
+                          labelText: 'From', // Label on the border
+                          border: OutlineInputBorder(),
+                        ),
+                        child: DropdownButtonHideUnderline( // Removes the default line
+                          child: DropdownButton<String>(
+                            value: _fromCurrency, // Currently selected currency
+                            isExpanded: true, // Fills the box
+                            isDense: true, // Keeps it compact
+                            items: exchangeRates.keys.map((code) {
+                              return DropdownMenuItem(
+                                value: code,
+                                child: Text('$code  ${currencyNames[code]}', overflow: TextOverflow.ellipsis), // Code and name
+                              );
+                            }).toList(),
+                            onChanged: (String? value) { // Runs when a new currency is picked
+                              setState(() {
+                                _fromCurrency = value!;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    IconButton( // Swap button
+                      icon: const Icon(Icons.swap_horiz),
+                      color: theme.colorScheme.primary,
+                      tooltip: 'Swap currencies', // Text shown on long press
+                      onPressed: _swapCurrencies,
+                    ),
+                    Expanded( // To dropdown takes the other half
+                      child: InputDecorator(
+                        decoration: const InputDecoration(
+                          labelText: 'To', // Label on the border
+                          border: OutlineInputBorder(),
+                        ),
+                        child: DropdownButtonHideUnderline( // Removes the default line
+                          child: DropdownButton<String>(
+                            value: _toCurrency, // Currently selected currency
+                            isExpanded: true, // Fills the box
+                            isDense: true, // Keeps it compact
+                            items: exchangeRates.keys.map((code) {
+                              return DropdownMenuItem(
+                                value: code,
+                                child: Text('$code  ${currencyNames[code]}', overflow: TextOverflow.ellipsis), // Code and name
+                              );
+                            }).toList(),
+                            onChanged: (String? value) { // Runs when a new currency is picked
+                              setState(() {
+                                _toCurrency = value!;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
